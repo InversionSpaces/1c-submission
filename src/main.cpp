@@ -5,5 +5,5 @@
 
 int main() {
     Decoder decoder(std::cin);
-    decoder.process();
+    CodeTree code_tree = std::move(decoder).gen_code_tree();
 }
