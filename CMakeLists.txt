@@ -11,10 +11,16 @@ add_compile_options(
 
 set(INCLUDE_DIR ${1c-submission_SOURCE_DIR}/inc)
 set(SOURCE_DIR ${1c-submission_SOURCE_DIR}/src)
+set(TEST_DIR ${1c-submission_SOURCE_DIR}/test)
 
 include_directories(${INCLUDE_DIR})
 
 add_executable(
     solution
     ${SOURCE_DIR}/main.cpp
+    )
+
+add_executable(
+    tests
+    ${TEST_DIR}/tests.cpp
     )
