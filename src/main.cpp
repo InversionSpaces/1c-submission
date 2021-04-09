@@ -1,7 +1,11 @@
 #include <iostream>
+#include <string>
 
-#include <main.hpp>
+#include <decoder.hpp>
 
 int main() {
-    std::cout << hello() << std::endl;
+    Tokenizer tokenizer(std::cin);
+    std::string token;
+    while (tokenizer.get_token(token))
+        std::cout << token << std::endl;
 }
