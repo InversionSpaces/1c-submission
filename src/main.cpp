@@ -20,9 +20,11 @@ int main(int argc, char* argv[]) {
 
     for (;;) {
         std::string code;
-        std::cout << "Specify Code > ";
-        if (!(std::cin >> code))
+        std::cout << "Specify Code (Ctrl-D to exit) > ";
+        if (!(std::cin >> code)) {
+            std::cout << std::endl;
             break;
+        }
 
         auto result = code_tree.check_code(code);
         if (!result) {
