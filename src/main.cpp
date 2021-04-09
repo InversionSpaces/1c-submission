@@ -14,11 +14,10 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    std::string filename(argv[1]);
-    std::ifstream file(filename);
-
-    Decoder decoder(file);
+    Decoder decoder(argv[1]);
     CodeTree code_tree = std::move(decoder).gen_code_tree();
+
+    return 0;
 
     for (;;) {
         std::string code;

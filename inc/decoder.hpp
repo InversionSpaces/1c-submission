@@ -28,14 +28,14 @@ class Decoder {
 public:
     static const size_t CHUNK_SIZE = 5;
 
-    Decoder(std::istream& stream) : tokenizer(stream) {}
+    Decoder(const std::string& fname) : tokenizer(fname) {}
 
     CodeTree gen_code_tree() && {
         chunk_t chunk;
         std::string token;
 
         for (size_t size = 0; size < CHUNK_SIZE; ++size) {
-            if (!tokenizer.get_token(token))
+            if (!tokenizer.get_token(token, CHUNK_SIZE))
                 break;
 
             chunk.emplace_back(std::move(token));
@@ -44,8 +44,9 @@ public:
         size_t position = 0;
         process_chunk(chunk, position);
 
-        while (tokenizer.get_token(token)) {
+        while (tokenizer.get_token(token, CHUNK_SIZE)) {
             chunk.emplace_back(std::move(token));
+            token = std::move(chunk.front());
             chunk.pop_front();
 
             ++position;
