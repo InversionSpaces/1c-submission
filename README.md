@@ -2,8 +2,9 @@
 
 ### Сборка
 ```bash
-cmake -Bbuild .
+mkdir build && cmake -Bbuild .
 cd build && make
+cd ..
 ```
 
 ### Запуск
