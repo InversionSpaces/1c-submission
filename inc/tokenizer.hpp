@@ -9,6 +9,10 @@ class Tokenizer {
 public:
     Tokenizer(std::istream& stream) : stream(stream) {}
 
+    /*
+     * Получение слудеющего токена из переданного в конструктор потока
+     * true если токен получен, иначе - false
+     */
     bool get_token(std::string& token) {
         token.clear();
 

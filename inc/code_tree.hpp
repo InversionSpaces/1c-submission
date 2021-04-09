@@ -19,9 +19,13 @@ public:
 
     CodeTree() : root(std::make_shared<CodeNode>()) {}
 
+    /*
+     * Добавление ключа code на позици position
+     */
     void add_code(const std::string& code, const size_t position) {
         ptr<CodeNode> current = root;
 
+        // Спуск и обновление бора
         for (const auto& symbol: code) {
             auto lowered = std::tolower(symbol);
             if (!current->nexts.count(lowered)) {
@@ -32,6 +36,10 @@ public:
         }
     }
 
+    /*
+     * Проверка существования ключа
+     * std::nullopt в случае отсутсвия ключа, его позиция иначе
+     */
     std::optional<size_t> check_code(const std::string& code) const {
         ptr<CodeNode> current = root;
 

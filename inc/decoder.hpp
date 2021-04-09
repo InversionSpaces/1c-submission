@@ -30,10 +30,14 @@ public:
 
     Decoder(std::istream& stream) : tokenizer(stream) {}
 
+    /*
+     * Генерация CodeTree по данному в конструкторе потоку
+     */
     CodeTree gen_code_tree() && {
         chunk_t chunk;
         std::string token;
 
+        // Заполнение начального окна
         for (size_t size = 0; size < CHUNK_SIZE; ++size) {
             if (!tokenizer.get_token(token))
                 break;
@@ -41,17 +45,21 @@ public:
             chunk.emplace_back(std::move(token));
         }
 
+        // Обработка первоночального окна
         size_t position = 0;
         process_chunk(chunk, position);
 
+        // Передвижение окна
         while (tokenizer.get_token(token)) {
             chunk.emplace_back(std::move(token));
+            token = std::move(chunk.front()); // save allocations
             chunk.pop_front();
 
             ++position;
             process_chunk(chunk, position);
         }
 
+        // Возвращение результата
         CodeTree retval = std::move(code_tree);
         return retval;
     }
