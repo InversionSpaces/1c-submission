@@ -4,6 +4,7 @@
 #include <cctype>
 #include <string>
 
+namespace solution {
 class Tokenizer {
 public:
     Tokenizer(std::istream& stream) : stream(stream) {}
@@ -28,3 +29,4 @@ public:
 private:
     std::istream& stream;
 };
+} // namespace solution

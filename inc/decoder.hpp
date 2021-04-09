@@ -7,6 +7,7 @@
 #include <code_tree.hpp>
 #include <tokenizer.hpp>
 
+namespace solution {
 class Decoder {
     using chunk_t = std::list<std::string>;
 
@@ -59,3 +60,4 @@ private:
     Tokenizer tokenizer;
     CodeTree code_tree;
 };
+} // namespace solution

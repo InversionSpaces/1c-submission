@@ -4,6 +4,8 @@
 
 #include <decoder.hpp>
 
+using namespace solution;
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cout << "Secret decoder" << std::endl;

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 
+namespace solution {
 class CodeTree {
     template<typename T>
     using ptr = std::shared_ptr<T>;
@@ -13,7 +14,7 @@ public:
         const size_t position;
         std::unordered_map<char, ptr<CodeNode>> nexts;
 
-        CodeNode(const size_t position=0) : position(position) {}
+        CodeNode(const size_t position = 0) : position(position) {}
     };
 
     CodeTree() : root(std::make_shared<CodeNode>()) {}
@@ -48,4 +49,4 @@ public:
 private:
     ptr<CodeNode> root;
 };
-
+} // namespace solution
