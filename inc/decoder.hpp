@@ -6,6 +6,7 @@
 
 #include <code_tree.hpp>
 #include <tokenizer.hpp>
+#include <unordered_map>
 
 namespace solution {
 class Decoder {
@@ -22,7 +23,8 @@ class Decoder {
             ++pos;
         }
 
-        code_tree.add_code(code, position);
+        for (size_t len = 0; len < code.size(); ++len)
+            result[code.substr(0, len + 1)] = position;
     }
 
 public:
@@ -30,7 +32,7 @@ public:
 
     Decoder(std::istream& stream) : tokenizer(stream) {}
 
-    CodeTree gen_code_tree() && {
+    std::unordered_map<std::string, size_t> gen_codes() && {
         chunk_t chunk;
         std::string token;
 
@@ -52,12 +54,12 @@ public:
             process_chunk(chunk, position);
         }
 
-        CodeTree retval = std::move(code_tree);
+        auto retval = std::move(result);
         return retval;
     }
 
 private:
     Tokenizer tokenizer;
-    CodeTree code_tree;
+    std::unordered_map<std::string, size_t> result;
 };
 } // namespace solution

@@ -18,8 +18,9 @@ int main(int argc, char* argv[]) {
     std::ifstream file(filename);
 
     Decoder decoder(file);
-    CodeTree code_tree = std::move(decoder).gen_code_tree();
+    auto codes = std::move(decoder).gen_codes();
 
+    return 0;
     for (;;) {
         std::string code;
         std::cout << "Specify Code (Ctrl-D to exit) > ";
@@ -28,12 +29,12 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        auto result = code_tree.check_code(code);
+        auto result = codes.count(code);
         if (!result) {
             std::cout << "Code Not Found" << std::endl;
         }
         else {
-            std::cout << "Found code at position: " << *result + 1 << std::endl;
+            std::cout << "Found code at position: " << codes.at(code) + 1 << std::endl;
         }
     }
 }
