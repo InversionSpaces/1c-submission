@@ -8,8 +8,6 @@
 #include <optional>
 
 class Tokenizer {
-    std::istream& stream;
-
 public:
     Tokenizer(std::istream& stream) : stream(stream) {}
 
@@ -29,11 +27,15 @@ public:
 
         return true;
     }
+
+private:
+    std::istream& stream;
 };
 
 class CodeTree {
     template<typename T>
     using ptr = std::shared_ptr<T>;
+
 public:
     struct CodeNode {
         const size_t position;
@@ -48,9 +50,12 @@ public:
         ptr<CodeNode> current = root;
 
         for (const auto& symbol: code) {
-            if (!current->nexts.count(symbol))
-                current->nexts[symbol] = std::make_shared<CodeNode>(position);
-            current = current->nexts.at(symbol);
+            auto lowered = std::tolower(symbol);
+            if (!current->nexts.count(lowered)) {
+                auto inserted = std::make_shared<CodeNode>(position);
+                current->nexts[lowered] = inserted;
+            }
+            current = current->nexts.at(lowered);
         }
     }
 
@@ -58,9 +63,10 @@ public:
         ptr<CodeNode> current = root;
 
         for (const auto& symbol: code) {
-            if (!current->nexts.count(symbol))
+            auto lowered = std::tolower(symbol);
+            if (!current->nexts.count(lowered))
                 return std::nullopt;
-            current = current->nexts.at(symbol);
+            current = current->nexts.at(lowered);
         }
 
         return current->position;
@@ -72,9 +78,6 @@ private:
 
 class Decoder {
     using chunk_t = std::list<std::string>;
-
-    Tokenizer tokenizer;
-    CodeTree code_tree;
 
     void process_chunk(const chunk_t& chunk, const size_t position) {
         std::string code;
@@ -121,4 +124,8 @@ public:
         CodeTree retval = std::move(code_tree);
         return retval;
     }
+
+private:
+    Tokenizer tokenizer;
+    CodeTree code_tree;
 };
